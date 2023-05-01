@@ -1,0 +1,11 @@
+version: "3.9" # We need to define the docker specification version
+services: # Define our service(s) - in this case we only have one 
+  app: # We will build a singular app 
+    build: . # Used to build our dockerfile
+    volumes: # This refers to our directory that we defined /djangoapp
+      - .:/hacker_news
+    ports: # We want to expose port 9000 within our container
+      - 9000:9000
+    image: myapp:hacker_news # Tag/add our docker image name
+    container_name: hacker_news_container # Specify a container name
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:9000 # Expose all IP addresses to connect to port 9000
