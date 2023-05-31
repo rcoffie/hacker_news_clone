@@ -1,10 +1,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from story.models import Story 
+import datetime
 # Create your views here.
 
 def home(request):
+    today = datetime.date.today()
+    stories = Story.objects.filter(created_at__gte=today)[0:50]
+    return render(request, 'pages/homepage.html',{'stories':stories,})
 
-    return render(request, 'pages/homepage.html')
+
+
+def new(request):
+    today = datetime.date.today()
+    stories = Story.objects.filter(created_at__gte=today)
+
+    return render(request, 'pages/new.html',{'stories':stories})
 
 
 def signup(request):
