@@ -10,3 +10,14 @@ class Story(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name="stories", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.title 
+    
+
+class Comment(models.Model):
+    story = models.ForeignKey(Story, related_name="comments", on_delete=models.CASCADE)
+    text = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE)

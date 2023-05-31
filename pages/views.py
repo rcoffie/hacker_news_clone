@@ -13,7 +13,7 @@ def home(request):
 
 def new(request):
     today = datetime.date.today()
-    stories = Story.objects.filter(created_at__gte=today)
+    stories = Story.objects.filter(created_at__gte=today).order_by('-created_by')
 
     return render(request, 'pages/new.html',{'stories':stories})
 

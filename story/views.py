@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from story.forms import StoryForm 
-from story.models import Story
+from story.forms import StoryForm, CommentForm
+from story.models import Story, Comment
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -22,4 +22,16 @@ def create_story(request):
 
 def story_detail(request, id):
     story = Story.objects.get(id=id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.story = story
+            comment.created_by = request.user 
+            comment.save()
     return render(request, 'story/story_detail.html',{'story':story})
+
+
+def create_comment(request):
+
+    return render(request, 'story/create_comment.html', {})
