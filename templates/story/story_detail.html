@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+{% block content %}
+<div class="container"> 
+    <div class="row border border-3 m-1">  
+
+        <p > <a class="text-decoration-none" href="{% url 'detail' story.id %}">  <i class="bi bi-chevron-up"></i>  </a> {{story.title | title}}  <br>
+            <small> <a href="#"  rel="noopener noreferrer"> point </a> | {{story.created_at | naturalday }}  | <a href="#">{{story.created_by | title}}</a>   | comment  </small>
+          </p> 
+        <p>{{story.text}}</p>
+        {% if request.user.is_authenticated %}
+        <form action="." method="POST">
+          {% csrf_token %}
+          {{form.as_p}}
+          <input type="submit" value="comment">
+         </form>
+         {% else %}
+         <div class="alert alert-success my-2" role="alert">
+          Need to <a href="{% url 'login' %}">login</a> in to post comment 
+        </div>
+         {% endif %}
+</div>
+
+{% endblock %}
