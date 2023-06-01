@@ -6,7 +6,8 @@ import datetime
 
 def home(request):
     today = datetime.date.today()
-    stories = Story.objects.filter(created_at__gte=today)[0:50]
+    stories = Story.objects.all()[0:50]
+    # stories = Story.objects.filter(created_at__gte=today)[0:50]
     return render(request, 'pages/homepage.html',{'stories':stories,})
 
 

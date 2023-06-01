@@ -29,7 +29,10 @@ def story_detail(request, id):
             comment.story = story
             comment.created_by = request.user 
             comment.save()
-    return render(request, 'story/story_detail.html',{'story':story})
+            return redirect('detail', id=id)
+    else:
+        form = CommentForm()
+    return render(request, 'story/story_detail.html',{'story':story,'form':form})
 
 
 def create_comment(request):
