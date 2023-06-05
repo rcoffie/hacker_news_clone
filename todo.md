@@ -19,6 +19,8 @@
 * run mmigration 
 * create forms for the post models 
 * create view for the create post 
+* Adding voting link to homepage, newpage , 
+* Add unvote link 
 
 
 

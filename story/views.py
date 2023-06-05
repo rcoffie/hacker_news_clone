@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from story.forms import StoryForm, CommentForm
-from story.models import Story, Comment
+from story.models import Story, Comment, Vote
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -22,6 +22,11 @@ def create_story(request):
 
 def story_detail(request, id):
     story = Story.objects.get(id=id)
+    story.has_voted = False
+    if request.user.is_authenticated:
+         if story.votes.filter(created_by =request.user):
+             story.has_voted = True
+    comments = Comment.objects.filter(story=story)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -32,9 +37,20 @@ def story_detail(request, id):
             return redirect('detail', id=id)
     else:
         form = CommentForm()
-    return render(request, 'story/story_detail.html',{'story':story,'form':form})
+    return render(request, 'story/story_detail.html',{'story':story,'form':form,'comments':comments,})
 
 
-def create_comment(request):
+def vote(request, id):
+    story = Story.objects.get(id=id)
+    already_voted = story.votes.filter(created_by=request.user )
+    if not already_voted:
+        Vote.objects.create(story=story, created_by=request.user)
 
-    return render(request, 'story/create_comment.html', {})
+    redirect_page = request.GET.get('redirect_page', '/')
+
+    if redirect_page == "detail":
+        return redirect("detail", id=id)
+    else:
+        return redirect(redirect_page)
+
+
