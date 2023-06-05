@@ -6,8 +6,9 @@
 <div class="container"> 
     <div class="row border border-3 m-1">  
 
-        <p > <a class="text-decoration-none" href="{% url 'detail' story.id %}">  <i class="bi bi-chevron-up"></i>  </a> {{story.title | title}}  <br>
-            <small> <a href="#"  rel="noopener noreferrer"> point </a> | {{story.created_at | naturalday }}  | <a href="#">{{story.created_by | title}}</a>   | comment  </small>
+        <p > {% if not story.has_voted %} <a class="text-decoration-none" href="{% url 'vote' story.id %}?redirect_page=detail">  <i class="bi bi-chevron-up"></i>  </a> {% endif %}
+         {{story.title | title}}  <br>
+            <small> {{story.votes.count }}  point  | {{story.created_at | naturalday }}  | <a href="#">{{story.created_by | title}}</a>   | comment  </small>
           </p> 
         <p>{{story.text}}</p>
         {% if request.user.is_authenticated %}
@@ -21,6 +22,17 @@
           Need to <a href="{% url 'login' %}">login</a> in to post comment 
         </div>
          {% endif %}
+         
+         <hr class="mt-5">
+         <h4>Comments</h4>
+         {% for comment in comments %}
+           
+           <div>
+            <footer class="blocquote-footer"> <strong><i class="bi bi-person-circle"></i> {{comment.created_by|title}} </strong>  | <i class="bi bi-alarm"></i> {{comment.created_at | naturalday }}</footer>
+            <p>{{ comment.text }}</p>
+           
+           </div>
+         {% endfor %}
 </div>
 
 {% endblock %}
