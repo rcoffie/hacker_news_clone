@@ -4,11 +4,14 @@
 
 {% block content %}
 <div class="container"> 
-    <div class="row border border-3 m-1">  
+    <div class="row m-1">  
 
-        <p > {% if not story.has_voted %} <a class="text-decoration-none" href="{% url 'vote' story.id %}?redirect_page=detail">  <i class="bi bi-chevron-up"></i>  </a> {% endif %}
+        <p > {% if not story.has_voted %} <a class="text-decoration-none" href="{% url 'vote' story.id %}?redirect_page=detail">  <i class="bi bi-hand-thumbs-up"></i>  </a> 
+        {% else %}
+        <a class="text-decoration-none" href="{% url 'vote' story.id %}?redirect_page=detail">  <i class="bi bi-hand-thumbs-down"></i>  </a>
+        {% endif %}
          {{story.title | title}}  <br>
-            <small> <i class="bi bi-arrow-down-circle-fill"></i> {{story.votes.count }}  point  | <i class="bi bi-alarm"></i> {{story.created_at | naturalday }}  | <i class="bi bi-person-circle"></i>  <a href="#">{{story.created_by | title}}</a>   | <i class="bi bi-chat-left-text"></i> comment  | <small><i class="bi bi-chevron-down"></i></small> </small>
+            <small> <i class="bi bi-arrow-down-circle-fill"></i> {{story.votes.count }}  point  | <i class="bi bi-alarm"></i> {{story.created_at | naturalday }}  | <i class="bi bi-person-circle"></i>  <a href="#">{{story.created_by | title}}</a>   | <i class="bi bi-chat-left-text"></i> {{comments.count}} comment </small>
           </p> 
         <p>{{story.text}}
         
@@ -16,8 +19,14 @@
         {% if request.user.is_authenticated %}
         <form action="." method="POST">
           {% csrf_token %}
-          {{form.as_p}}
-          <input type="submit" value="comment">
+         
+          <div class="mb-3">
+            <label for="{{for.text.id_for_lable}}" class="form-label"> Add Comment</label>
+            {{form.text}}
+        </div>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-primary"> <i class="bi bi-plus-square-dotted"></i> Add </button>
+      </div>
          </form>
          {% else %}
          <div class="alert alert-success my-2" role="alert">
@@ -25,16 +34,22 @@
         </div>
          {% endif %}
          
-         <hr class="mt-5">
-         <h4>Comments</h4>
-         {% for comment in comments %}
-           
-           <div>
-            <footer class="blocquote-footer"> <strong><i class="bi bi-person-circle"></i> {{comment.created_by|title}} </strong>  | <i class="bi bi-alarm"></i> {{comment.created_at | naturalday }}</footer>
-            <p>{{ comment.text }}</p>
-           
-           </div>
-         {% endfor %}
+         
+        
+</div>
+
+<p class="bold"> {{comments.count}} <i class="bi bi-chat-left-text"></i>  Comments</p>
+<div class="row  border border-1 my-2 py-4">
+  
+  {% for comment in comments %}
+    
+    <div>
+     <footer class="blocquote-footer"> <strong><i class="bi bi-person-circle"></i> {{comment.created_by|title}} </strong>  | <i class="bi bi-alarm"></i> {{comment.created_at | naturalday }}</footer>
+     <p>{{ comment.text }}</p>
+    
+    </div>
+  {% endfor %}
+</div>
 </div>
 
 {% endblock %}

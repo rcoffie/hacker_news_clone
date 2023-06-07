@@ -45,6 +45,9 @@ def vote(request, id):
     already_voted = story.votes.filter(created_by=request.user )
     if not already_voted:
         Vote.objects.create(story=story, created_by=request.user)
+    else:
+        vote = Vote.objects.get(story_id=id, created_by=request.user)
+        vote.delete()
 
     redirect_page = request.GET.get('redirect_page', '/')
 
@@ -52,5 +55,7 @@ def vote(request, id):
         return redirect("detail", id=id)
     else:
         return redirect(redirect_page)
+
+
 
 
