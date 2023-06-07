@@ -4,13 +4,27 @@
 
 <div class="container">
 
-    <div class="row row border border-3 m-1">
-        <div class="col-md-8">
+    <div class="row  m-1">
+        <div class="col-md-8 m-auto">
+             <h3 class="text-center">Add Post </h3>
             <form action="" method="POST">
                 {% csrf_token %}
-                {{form.as_p}}
-        
-                <input type="submit" value="create">
+                <div class="mb-3">
+                    <label for="{{for.title.id_for_lable}}" class="form-label">{{form.title.label}}</label>
+                    {{form.title}}
+                </div>
+                <div class="mb-3">
+                    <label for="{{for.url.id_for_lable}}" class="form-label">{{form.url.label}}</label>
+                    {{form.url}}
+               </div>
+               <div class="mb-3">
+                <label for="{{for.text.id_for_lable}}" class="form-label">{{form.text.label}}</label>
+                {{form.text}}
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary"> <i class="bi bi-plus-square-dotted"></i> Add </button>
+            </div>
             </form>
         </div>
     </div>
