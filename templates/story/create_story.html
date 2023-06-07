@@ -4,11 +4,17 @@
 
 <div class="container">
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
+    <div class="row row border border-3 m-1">
+        <div class="col-md-8">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+        
+                <input type="submit" value="create">
+            </form>
+        </div>
+    </div>
 
-        <input type="submit" value="create">
-    </form>
+    
 </div>
 {% endblock %}
