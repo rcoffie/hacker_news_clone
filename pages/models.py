@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=100, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to="profile_picture", null=True, blank=True)
+    follow = models.ForeignKey(User, related_name='followers', on_delete=models.CASCADE, blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

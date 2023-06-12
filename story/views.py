@@ -58,4 +58,3 @@ def vote(request, id):
 
 
 
-

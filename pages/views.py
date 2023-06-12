@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from story.models import Story 
 from pages.models import Profile
 import datetime
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request):
@@ -32,6 +33,7 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'pages/signup.html', {'form':form,})
 
+@login_required
 def profile(request):
     profile = request.user.profile
     stories = Story.objects.filter(created_by=request.user)
