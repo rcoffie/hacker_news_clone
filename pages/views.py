@@ -31,3 +31,8 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'pages/signup.html', {'form':form,})
+
+def profile(request):
+    profile = request.user.profile
+    stories = Story.objects.filter(created_by=request.user)
+    return render(request,'pages/profile.html', {'profile':profile,'stories':stories})
