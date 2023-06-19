@@ -14,10 +14,17 @@
                         <img src="{{user_profile.profile_picture.url}}"
                           alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                           style="width: 150px; z-index: 1">
-                        <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                          {% if not user_profile.is_following %} 
+                        <a href="{% url 'follow' user_profile.id %}" type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                           style="z-index: 1;">
                           Follow
-                        </button>
+                      </a>
+                        {% else %}
+                        <a href="{% url 'follow' user_profile.id %}" type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                          style="z-index: 1;">
+                          Following
+                    </a>
+                        {% endif %} 
                       </div>
                       <div class="ms-3" style="margin-top: 130px;">
                         <h5>  {{user_profile|title}}</h5>
