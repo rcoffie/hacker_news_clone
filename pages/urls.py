@@ -10,5 +10,6 @@ urlpatterns = [
    path('logout/',LogoutView.as_view(),name="logout"),
    path('profile/',views.profile,name="profile"),
    path('user_profile/<int:id>/',views.user_profile, name="user_profile"),
+   path('<int:id>/follow/',views.follow,name="follow"),
 
 ]

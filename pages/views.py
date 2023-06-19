@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from story.models import Story 
-from pages.models import Profile
+from pages.models import Profile, Follow
 import datetime
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -42,6 +42,27 @@ def profile(request):
 
 def user_profile(request, id):
     user_profile = Profile.objects.get(id=id)
+    user_profile.is_following = False
+    if user_profile.following.filter(follower=request.user.profile):
+        user_profile.is_following = True
     user = user_profile.user
     stories = Story.objects.filter(created_by=user)
     return render(request, 'pages/user_profile.html',{'user_profile':user_profile,'stories':stories})
+
+
+def follow(request, id):
+    author = Profile.objects.get(id=id)
+    user = request.user.profile
+    is_following = author.following.filter(follower=request.user.profile)
+    if not is_following:
+        Follow.objects.create(follower=user, following=author)
+    else:
+        follow = Follow.objects.get(following_id=author.id, follower=user)
+        follow.delete()
+        # print(author.id)
+        # print(author)
+        # follow = Follow.objects.get(following_id=id, follower=user)
+        # follow.delete()
+    return redirect('user_profile', id=id)
+
+
