@@ -37,4 +37,11 @@ def signup(request):
 def profile(request):
     profile = request.user.profile
     stories = Story.objects.filter(created_by=request.user)
+    print(request.user)
     return render(request,'pages/profile.html', {'profile':profile,'stories':stories})
+
+def user_profile(request, id):
+    user_profile = Profile.objects.get(id=id)
+    user = user_profile.user
+    stories = Story.objects.filter(created_by=user)
+    return render(request, 'pages/user_profile.html',{'user_profile':user_profile,'stories':stories})
