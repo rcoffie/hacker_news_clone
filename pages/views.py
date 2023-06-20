@@ -61,10 +61,6 @@ def follow(request, id):
     else:
         follow = Follow.objects.get(following_id=author.id, follower=user)
         follow.delete()
-        # print(author.id)
-        # print(author)
-        # follow = Follow.objects.get(following_id=id, follower=user)
-        # follow.delete()
     return redirect('user_profile', id=id)
 
 

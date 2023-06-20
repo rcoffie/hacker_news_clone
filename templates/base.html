@@ -16,21 +16,16 @@
         <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb" class="bg-warning mt-1">
             <ol class="breadcrumb  ">
               <li class="breadcrumb-item"><a href="#"><i class="bi bi-newspaper m-1"></i></a></li>
-              <li class="breadcrumb-item "><a href="#"> <strong class="text-decoration-none">H News Clone</strong></a></li>
-              <li class="breadcrumb-item active" aria-current="page">New</li>
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Library</li>
-              <li class="breadcrumb-item"><a href="{% url 'new' %}">New</a></li>
+              <li class="breadcrumb-item "><a href="/"> <strong class="text-decoration-none">H News Clone</strong></a></li>
+              <li class="breadcrumb-item"><a href="{% url 'new' %}">Followers</a></li>
               <li class="breadcrumb-item"><a href="{% url 'create_story' %}">Submit</a></li>
               {% if request.user.is_authenticated %}
-              
               <li class="breadcrumb-item active" aria-current="page">{{request.user.username|title}}</li>
               <li class="breadcrumb-item"><a href="{% url 'logout' %}">Logout</a></li>
               {% else %}
               <li class="breadcrumb-item"><a href="{% url 'login' %}">Login</a></li>
               <li class="breadcrumb-item"><a href="{% url 'signup' %}">SignUp</a></li>
               {% endif %}
-              <li class="breadcrumb-item d-flex justify-content-start" aria-current="page">Library</li>
             </ol>
 
 

@@ -10,7 +10,7 @@
             {% if stories %}
             {% for story in stories %}
              <p >  <a href="{% url 'detail' story.id %}" class="text-decoration-none"> {{story.title | title}}  </a>   <br>
-              <small> <i class="bi bi-arrow-down-circle-fill"></i> {{story.votes.count }} point  | <i class="bi bi-alarm"></i> {{story.created_at | naturalday }}  | <i class="bi bi-person-circle"></i> <a href="">{{story.created_by | title}}</a>   | <i class="bi bi-chat-left-text"></i> <a href="">comment </a>  </small>
+              <small> <i class="bi bi-arrow-down-circle-fill"></i> {{story.votes.count }} point  | <i class="bi bi-alarm"></i> {{story.created_at | naturalday }}  | <i class="bi bi-person-circle"></i> <a href="{% url 'user_profile' story.created_by.profile.id %}">{{story.created_by | title}}</a>   | <i class="bi bi-chat-left-text"></i> <a href="">comment </a>  </small>
             </p> 
             <p>{{ story.text|truncatechars:80  }}</p>
              {% endfor %}
