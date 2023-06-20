@@ -43,8 +43,10 @@ def profile(request):
 def user_profile(request, id):
     user_profile = Profile.objects.get(id=id)
     user_profile.is_following = False
-    if user_profile.following.filter(follower=request.user.profile):
-        user_profile.is_following = True
+    if request.user.is_authenticated:
+        if user_profile.following.filter(follower=request.user.profile):
+            user_profile.is_following = True
+    
     user = user_profile.user
     stories = Story.objects.filter(created_by=user)
     return render(request, 'pages/user_profile.html',{'user_profile':user_profile,'stories':stories})
