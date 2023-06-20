@@ -13,11 +13,15 @@ def home(request):
     return render(request, 'pages/homepage.html',{'stories':stories,})
 
 
-
+@login_required
 def new(request):
     today = datetime.date.today()
-    stories = Story.objects.filter(created_at__gte=today).order_by('-created_by')
+    user = request.user.profile
+    print(user)
 
+    following = user.follower.all()
+    print(following.count)
+    stories = Story.objects.all()
     return render(request, 'pages/new.html',{'stories':stories})
 
 
