@@ -5,17 +5,26 @@
 {% block content %}
 <div class="container"> 
     <div class="row m-1">  
+         
+        <p > 
+         {{story.title | title}}  <br>
+            <small> 
+              <i class="bi bi-arrow-down-circle-fill"></i> {{story.votes.count }}  point  | <i class="bi bi-alarm"></i> {{story.created_at | naturalday }}  | <i class="bi bi-person-circle"></i>  <a href="{% url 'user_profile' story.created_by.profile.id %}">{{story.created_by | title}}</a>   | <i class="bi bi-chat-left-text"></i> {{comments.count}} comment | 
+          {% if not story.has_voted %} 
+          {% if request.user.is_authenticated %}
+          <a class="text-decoration-none" href="{% url 'vote' story.id %}?redirect_page=detail">  <i class="bi bi-hand-thumbs-up"></i>  </a> 
+          {% else %}
+          <a class="text-decoration-none" href="{% url 'login' %}">  <i class="bi bi-hand-thumbs-up"></i>  </a> 
+          {% endif %}
 
-        <p > {% if not story.has_voted %} <a class="text-decoration-none" href="{% url 'vote' story.id %}?redirect_page=detail">  <i class="bi bi-hand-thumbs-up"></i>  </a> 
         {% else %}
         <a class="text-decoration-none" href="{% url 'vote' story.id %}?redirect_page=detail">  <i class="bi bi-hand-thumbs-down"></i>  </a>
         {% endif %}
-         {{story.title | title}}  <br>
-            <small> <i class="bi bi-arrow-down-circle-fill"></i> {{story.votes.count }}  point  | <i class="bi bi-alarm"></i> {{story.created_at | naturalday }}  | <i class="bi bi-person-circle"></i>  <a href="{% url 'user_profile' story.created_by.profile.id %}">{{story.created_by | title}}</a>   | <i class="bi bi-chat-left-text"></i> {{comments.count}} comment </small>
+            </small>
           </p> 
-          {{story.created_by.profile.id}}
-        <p>{{story.text}}
-        
+         
+        <p>
+          {{story.text}}
         </p>
         {% if request.user.is_authenticated %}
         <form action="." method="POST">

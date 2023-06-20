@@ -15,10 +15,17 @@
                           alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                           style="width: 150px; z-index: 1">
                           {% if not user_profile.is_following %} 
+                          {% if request.user.is_authenticated %}
                         <a href="{% url 'follow' user_profile.id %}" type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                           style="z-index: 1;">
                           Follow
                       </a>
+                      {% else %}
+                      <a href="{% url 'login' %}" type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                      style="z-index: 1;">
+                      Follow
+                  </a>
+                      {% endif %}
                         {% else %}
                         <a href="{% url 'follow' user_profile.id %}" type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                           style="z-index: 1;">

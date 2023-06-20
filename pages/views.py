@@ -13,11 +13,15 @@ def home(request):
     return render(request, 'pages/homepage.html',{'stories':stories,})
 
 
-
+@login_required
 def new(request):
     today = datetime.date.today()
-    stories = Story.objects.filter(created_at__gte=today).order_by('-created_by')
+    user = request.user.profile
+    print(user)
 
+    following = user.follower.all()
+    print(following.count)
+    stories = Story.objects.all()
     return render(request, 'pages/new.html',{'stories':stories})
 
 
@@ -43,8 +47,10 @@ def profile(request):
 def user_profile(request, id):
     user_profile = Profile.objects.get(id=id)
     user_profile.is_following = False
-    if user_profile.following.filter(follower=request.user.profile):
-        user_profile.is_following = True
+    if request.user.is_authenticated:
+        if user_profile.following.filter(follower=request.user.profile):
+            user_profile.is_following = True
+    
     user = user_profile.user
     stories = Story.objects.filter(created_by=user)
     return render(request, 'pages/user_profile.html',{'user_profile':user_profile,'stories':stories})
@@ -59,10 +65,6 @@ def follow(request, id):
     else:
         follow = Follow.objects.get(following_id=author.id, follower=user)
         follow.delete()
-        # print(author.id)
-        # print(author)
-        # follow = Follow.objects.get(following_id=id, follower=user)
-        # follow.delete()
     return redirect('user_profile', id=id)
 
 
