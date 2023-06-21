@@ -19,7 +19,7 @@
               <li class="breadcrumb-item "><a href="/"> <strong class="text-decoration-none">H News Clone</strong></a></li>
               <li class="breadcrumb-item"><a href="{% url 'create_story' %}">Submit</a></li>
               {% if request.user.is_authenticated %}
-              <li class="breadcrumb-item active" aria-current="page">{{request.user.username|title}}</li>
+              <li class="breadcrumb-item active" aria-current="page"> <a href="{% url 'profile' %}">{{request.user.username|title}}</a> </li>
               <li class="breadcrumb-item"><a href="{% url 'logout' %}">Logout</a></li>
               {% else %}
               <li class="breadcrumb-item"><a href="{% url 'login' %}">Login</a></li>
