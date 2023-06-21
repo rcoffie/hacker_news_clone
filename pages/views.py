@@ -13,17 +13,6 @@ def home(request):
     return render(request, 'pages/homepage.html',{'stories':stories,})
 
 
-@login_required
-def new(request):
-    today = datetime.date.today()
-    user = request.user.profile
-    print(user)
-
-    following = user.follower.all()
-    print(following.count)
-    stories = Story.objects.all()
-    return render(request, 'pages/new.html',{'stories':stories})
-
 
 def signup(request):
     if request.method == "POST":
